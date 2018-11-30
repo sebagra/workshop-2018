@@ -77,4 +77,35 @@ describe('Dashboard', function() {
             .should('contain','Medium')
             .should('contain','33%');
     });
+
+
+    it('show low severity gauge', function() {
+        cy.fixture({
+            title: 'Issue 1',
+            status: open,
+            severity: 'High'
+        });
+        cy.fixture({
+            title: 'Issue 2',
+            status: open,
+            severity: 'Medium'
+        });
+        cy.fixture({
+            title: 'Issue 3',
+            status: open,
+            severity: 'Low'
+        });
+        cy.fixture({
+            title: 'Issue 4',
+            status: closed,
+            severity: 'Medium'
+        });
+
+        cy.visit('dashboard');
+
+        cy.get('[data-test-low-gauge]')
+            .should('exist')
+            .should('contain','Low')
+            .should('contain','33%');
+    });
 });
