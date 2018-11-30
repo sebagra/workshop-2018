@@ -16,4 +16,35 @@ describe('Dashboard', function() {
 
         cy.contains('2').should('exist');
     });
+
+    it('show high severity gauge', function() {
+        cy.fixture({
+            title: 'Issue 1',
+            status: open,
+            severity: 'High'
+        });
+        cy.fixture({
+            title: 'Issue 2',
+            status: open,
+            severity: 'Low'
+        });
+
+        cy.visit('dashboard');
+
+        cy.get('[data-test-high-gauge]')
+            .should('exist')
+            .should('contain','High')
+            .should('contain','50%');
+    });
+
+
+    it('show high severity gauge with 0 issues', function() {
+
+        cy.visit('dashboard');
+
+        cy.get('[data-test-high-gauge]')
+            .should('exist')
+            .should('contain','High')
+            .should('contain','0%');
+    });
 });
